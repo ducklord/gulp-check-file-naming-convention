@@ -1,5 +1,5 @@
 var through = require("through2"),
-	gutil = require("gulp-util"),
+	PluginError = require("plugin-error"),
 	Path = require("path"),
 	changeCase = require("change-case"),
 	colors = require("colors");
@@ -9,7 +9,7 @@ module.exports = function (options) {
 	var out = [];
 	// if necessary check for required options(s), e.g. options hash, etc.
 	if (!options || !changeCase[options.caseName]) {
-		throw new gutil.PluginError("gulp-check-file-naming-convention", "No options supplied");
+		throw new PluginError("gulp-check-file-naming-convention", "No options supplied");
 	}
 
 	// parse src path
@@ -34,7 +34,7 @@ module.exports = function (options) {
 
 			// accepting streams is optional
 			this.emit("error",
-				new gutil.PluginError("gulp-check-file-naming-convention", "Stream content is not supported"));
+				new PluginError("gulp-check-file-naming-convention", "Stream content is not supported"));
 			return callback();
 		}
 
@@ -53,7 +53,7 @@ module.exports = function (options) {
 
 	return through.obj(checkFileNamingConvention, function(callback) {
 		if(out.length > 0) {
-			this.emit('error', new gutil.PluginError('gulp-check-file-naming-convention', out.join('\n\n'), {
+			this.emit('error', new PluginError('gulp-check-file-naming-convention', out.join('\n\n'), {
 				showStack: false
 			}));
 		}

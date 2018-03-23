@@ -9,7 +9,7 @@ require("mocha");
 
 delete require.cache[require.resolve("../")];
 
-var gutil = require("gulp-util"),
+var File = require("vinyl"),
 	checkFileNamingConvention = require("../");
 
 describe("gulp-check-file-naming-convention", function () {
@@ -21,12 +21,12 @@ describe("gulp-check-file-naming-convention", function () {
 		stream.on('data', function () {});
 		stream.on("end", done);
 
-		stream.write(new gutil.File({
+		stream.write(new File({
 			path: "test/fixtures/camelCase/testSample.js",
 			cwd: "test/",
 			base: "test/fixtures",
 		}));
-		stream.write(new gutil.File({
+		stream.write(new File({
 			path: "test/fixtures/camelCase/test.js",
 			cwd: "test/",
 			base: "test/fixtures",
@@ -42,7 +42,7 @@ describe("gulp-check-file-naming-convention", function () {
 		stream.on('data', function () {});
 		stream.on("end", done);
 
-		stream.write(new gutil.File({
+		stream.write(new File({
 			path: "test/fixtures/paramCase/test-sample.js",
 			cwd: "test/",
 			base: "test/fixtures",
@@ -60,7 +60,7 @@ describe("gulp-check-file-naming-convention", function () {
 			done();
 		});
 
-		stream.write(new gutil.File({
+		stream.write(new File({
 			path: "test/fixtures/paramCase/testSample.js",
 			cwd: "test/",
 			base: "test/fixtures",
@@ -68,7 +68,7 @@ describe("gulp-check-file-naming-convention", function () {
 		stream.end();
 	});
 	it("should error on stream", function (done) {
-		var srcFile = new gutil.File({
+		var srcFile = new File({
 			path: "test/fixtures/hello.txt",
 			cwd: "test/",
 			base: "test/fixtures",
